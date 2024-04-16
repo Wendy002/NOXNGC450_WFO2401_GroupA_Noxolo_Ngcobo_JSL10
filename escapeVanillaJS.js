@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(books => {
                 const mostRecentBook = findMostRecentBook(books);
                 // 🪲 Bug: Incorrect element ID
-                document.getElementById("roomResult").textContent = `The key to the next room is: ${mostRecentBook.title}`;
+                document.getElementById("room1Result").textContent = `The key to the next room is: ${mostRecentBook.title}`;
             });
     });
 
@@ -34,8 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error(err);
         }
         
-        
-                       
+
                 
         
     });
@@ -43,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function findMostRecentBook(books) {
     // 🪲 Bug: Logic error
-    return books.map((mostRecent, book) => new Date(book.published) < new Date(mostRecent.published) ? book : mostRecent);
+    return books.reduce((mostRecent, book) => new Date(book.published) > new Date(mostRecent.published) ? book : mostRecent);
 }
 
 function findIntersection(setA, setB) {
