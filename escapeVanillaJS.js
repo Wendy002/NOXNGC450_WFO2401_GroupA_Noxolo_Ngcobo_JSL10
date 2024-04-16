@@ -15,21 +15,29 @@ document.addEventListener("DOMContentLoaded", () => {
         // 🪲 Bug: What's mssing from JS concepts?
         const reactConcepts = new Set(['components', 'jsx', 'hooks', 'async']);
         // 🪲 Bug: Incorrect function call
-        const commonConcepts = findIntersection(jsConcepts, jsConcepts);
+        const commonConcepts = findIntersection(jsConcepts, reactConcepts);
         document.getElementById("room2Result").textContent = `The code to unlock the door is: ${Array.from(commonConcepts).join(', ')}`;
     });
 
     // 🪲 Bug: Asynchronous function ?
-    document.getElementById("solveRoom3").addEventListener("click", () => {
-        fetch('directions.json') 
-            .then(response => response.json())
-            .then(directions => {
-                navigateLabyrinth(directions)
-                    .then(message => {
-                        // 🪲 Bug: Incorrect method
-                        document.getElementById("room3Result").innerHTML = message;
-                    });
-            });
+    document.getElementById("solveRoom3").addEventListener("click", async () => { 
+        try {
+           const response = await fetch('directions.json');
+           if(!response.ok){
+            throw Error('Failed to get data');
+           }
+           const directions = await response.json();
+            // 🪲 Bug: Incorrect method
+           const message = await navigateLabyrinth(directions);
+           document.getElementById("room3Result").textContent = message;
+        } catch (err) {
+            console.error(err);
+        }
+        
+        
+                       
+                
+        
     });
 });
 
